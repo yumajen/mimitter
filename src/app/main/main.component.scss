@@ -1,0 +1,77 @@
+.posting-area {
+    margin-left: 20px;
+    width: 30vw;
+}
+.submit-button {
+    text-align: right;
+}
+button .submit {
+    text-align: right;
+}
+.time-line {
+    margin-left: 20px;
+}
+table {
+    padding-left: 0;
+}
+td.post {
+    width: 30vw;
+    list-style: none;
+    margin-top: 3px;
+    background-color: #e7fadc;
+    border-radius: 5px;
+}
+p.sentences {
+    margin-bottom: 0;
+    padding-left: 10px;
+    font-size: 15px;
+}
+p.sub-info {
+    margin-top: 0;
+    margin-bottom: 2px;
+    padding-left: 10px;
+    height: 20%;
+    vertical-align: middle;
+    font-size: 13px;
+    color: #858585;
+    text-align: right;
+}
+textarea {
+    outline: none;
+    &.create {
+        height: 35px;
+        width: 30vw;
+    }
+    &.edit {
+        margin-left: 5px;
+        margin-top: 5px;
+        height: 35px;
+        width: 96%;
+        border-radius: 5px;
+    }
+    &:disabled {
+        background-color: #dadada;
+    }
+}
+mat-icon {
+    font-size: 20px;
+    &:hover {
+        cursor: pointer;
+        &.edit {
+            color: #60fa75;
+        }        
+        &.cancel {
+            color: #ff0000;
+        }        
+        &.delete {
+            color: #ff0000;
+        }
+        &.disabled {
+            cursor: default;
+            color: #858585;
+        }            
+    }
+}
+.unpostable {
+    color: #ff0000;
+}

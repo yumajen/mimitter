@@ -1,0 +1,48 @@
+<form [formGroup]="postForm" (ngSubmit)="createPost()">
+    <div class="posting-area">
+        <div class="form">
+            <textarea formControlName="sentence" class="create" [attr.disabled]="isEditing ? '' : null"></textarea>
+        </div>
+        <div class="words-counter">
+            <span [class.unpostable]="!isPostable(postForm.get('sentence').value)">
+                {{postForm.get('sentence').value.length}}
+            </span>/{{maxWords}}
+        </div>
+        <div class="submit-button">
+            <button type="sumbit" class="submit" [disabled]="!isPostable(postForm.get('sentence').value)">投稿</button>
+        </div>
+    </div>
+</form>
+<div *ngIf="posts" class="time-line">
+    <table>
+        <tbody>
+            <tr *ngFor="let post of posts; index as i">
+                <td class="post">
+                    <div>
+                        <p *ngIf="!isEdit(post)" class="sentences">{{post.sentence}}</p>
+                    </div>
+                    <div *ngIf="isEdit(post)">
+                        <textarea class="edit" value="{{post.sentence}}" (blur)="setUpdateParam(post, sentence.value)"
+                            (input)="getEditingSentence(sentence.value)" #sentence></textarea>
+                        <div class="words-counter">
+                            <span [class.unpostable]="!isPostable(editingSentence || sentence.value)">
+                                {{lengthOfEditingSentence || sentence.value.length}}
+                            </span>/{{maxWords}}
+                        </div>
+                    </div>
+                    <div>
+                        <p class="sub-info">
+                            {{post.createdAt | date: 'yyyy/MM/dd HH:mm:SS'}}
+                            <mat-icon *ngIf="!isEdit(post)" class="edit" (click)="editPost(post)">edit</mat-icon>
+                            <mat-icon *ngIf="isEdit(post)" class="edit" (click)="updatePost(post)">save</mat-icon>
+                            <mat-icon *ngIf="isEdit(post)" class="cancel" (click)="cancelEditing()">cancel
+                            </mat-icon>
+                            <mat-icon class="delete" (click)="deletePost(post.id)" [class.disabled]="isEditing">delete
+                            </mat-icon>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
