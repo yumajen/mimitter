@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { PostService } from '../post.service';
 import { FormBuilder } from '@angular/forms';
 import { Post } from '../post';
-import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-main',
@@ -10,7 +9,6 @@ import * as uuid from 'uuid';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-
   posts: Post[] = [];
   isEditing = false;
   editingPost: Post; // 編集中のポスト
@@ -41,14 +39,13 @@ export class MainComponent implements OnInit {
   }
 
   createPost(): void {
-    const param = this.postForm.value;
-    param.id = uuid.v4(); // UUIDを生成
-    param.createdAt = Date.now();
     this.postService.createPost(this.postForm.value as Post)
-      .subscribe(() => {
-        this.getPosts();
+      .then(() => {
         // フォーム内容をクリアする(resetメソッドだとnullとなるためisPostableメソッド内で落ちる)
         this.postForm.get('sentence').setValue('');
+      })
+      .catch((error: Error) => {
+        console.log('Post error', error);
       });
   }
 
@@ -76,9 +73,11 @@ export class MainComponent implements OnInit {
     }
 
     this.postService.updatePost(this.updateParam as Post)
-      .subscribe(() => {
-        this.getPosts();
+      .then(() => {
         this.cancelEditing();
+      })
+      .catch((error: Error) => {
+        console.log('Update error', error);
       });
   }
 
@@ -86,8 +85,9 @@ export class MainComponent implements OnInit {
     // ポスト編集中は削除出来ないようにする
     if (this.isEditing) { return; }
     this.postService.deletePost(id)
-      .subscribe(() => {
-        this.getPosts();
+      .then()
+      .catch((error: Error) => {
+        console.log('Delete error', error);
       });
   }
 

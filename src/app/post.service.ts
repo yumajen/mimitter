@@ -1,36 +1,40 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Post } from './post';
+import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
-  private url = 'api/posts';
-  private httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
+  private postsCollection: AngularFirestoreCollection<Post>;
 
   constructor(
-    private http: HttpClient,
-  ) { }
+    private db: AngularFirestore,
+  ) {
+    this.postsCollection = db.collection<Post>('posts', ref => ref.orderBy('createdAt', 'desc'));
+  }
 
   getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.url);
+    return this.postsCollection.valueChanges();
   }
 
-  createPost(param: Post): Observable<Post> {
-    return this.http.post<Post>(this.url, param, this.httpOptions);
+  createPost(param: Post): Promise<void> {
+    const createdId = this.db.createId();
+    const item: Post = {
+      id: createdId,
+      sentence: param.sentence,
+      createdAt: Date.now(),
+    };
+    return this.postsCollection.doc(createdId).set(item);
   }
 
-  updatePost(param: Post): Observable<Post> {
-    return this.http.put<Post>(this.url, param, this.httpOptions);
+  updatePost(param: Post): Promise<void> {
+    return this.postsCollection.doc(param.id).update(param);
   }
 
-  deletePost(id: string): Observable<Post> {
-    const url = `${this.url}/${id}`;
-    return this.http.delete<Post>(url, this.httpOptions);
+  deletePost(id: string): Promise<void> {
+    return this.postsCollection.doc(id).delete();
   }
 
 }
