@@ -3,6 +3,11 @@
         <span>Mimitter</span>
     </div>
     <div class="link" fxFlex="10%">
-        <a>LODIN</a>
+        <span *ngIf="!isLogined">
+            <a routerLink="/login">ログイン</a>
+        </span>
+        <span *ngIf="isLogined" (click)="logout()">
+            <a routerLink="/login">ログアウト</a>
+        </span>
     </div>
 </div>
