@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SessionService } from '../session.service';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +7,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  isLogined = false;
 
-  constructor() { }
+  constructor(
+    private sessionService: SessionService,
+  ) { }
 
   ngOnInit(): void {
+    this.setSessionState();
+  }
+
+  setSessionState(): void {
+    this.sessionService.sessionState.subscribe(v => {
+      this.isLogined = v;
+    });
+  }
+
+  logout(): void {
+    this.sessionService.logout();
   }
 
 }
