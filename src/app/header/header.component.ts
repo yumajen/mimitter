@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../session.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -10,6 +11,7 @@ export class HeaderComponent implements OnInit {
   isLogined = false;
 
   constructor(
+    private router: Router,
     private sessionService: SessionService,
   ) { }
 
@@ -24,7 +26,14 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-    this.sessionService.logout();
+    this.sessionService.logout()
+      .then(message => {
+        alert(message);
+        this.router.navigate(['/login']);
+      })
+      .catch(error => {
+        alert(error);
+      });
   }
 
 }
