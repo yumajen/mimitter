@@ -46,4 +46,18 @@ export class SessionService {
     });
   }
 
+  signup(account: any) {
+    return new Promise((resolve, reject) => {
+      this.angularFireAuth.auth.createUserWithEmailAndPassword(account.email, account.password)
+        .then(auth => {
+          auth.user.sendEmailVerification();
+        })
+        .then(() => resolve('入力したメールアドレスに確認用メールを送信しました。\nログイン画面へ移動します。'))
+        .catch(error => {
+          console.log(error);
+          reject('アカウントの作成に失敗しました。\n' + error);
+        });
+    });
+  }
+
 }

@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SessionService } from '../session.service';
 import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class SignupComponent implements OnInit {
   form = this.fb.group({
     email: [''],
     password: [''],
+    passwordConfirmation: [''],
   });
 
   constructor(
@@ -20,19 +21,23 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
-  login() {
+  signup() {
     const account = {
       email: this.form.get('email').value,
       password: this.form.get('password').value,
     };
+    if (account.password !== this.form.get('passwordConfirmation').value) {
+      alert('入力されたパスワードが一致していません。');
+      return;
+    }
 
-    this.sessionService.login(account)
+    this.sessionService.signup(account)
       .then(message => {
         alert(message);
-        this.router.navigate(['/main']);
+        this.router.navigate(['/login']);
       })
       .catch(error => { alert(error); });
   }
