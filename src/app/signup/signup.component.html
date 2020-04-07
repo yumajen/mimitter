@@ -1,4 +1,4 @@
-<h2>ログイン</h2>
+<h2>ユーザー登録</h2>
 <form [formGroup]="form">
     <div class="login-area">
         <div class="forms">
@@ -10,14 +10,13 @@
                 <label>パスワード</label>
                 <input type="password" formControlName="password">
             </div>
+            <div class="password">
+                <label>パスワード（確認）</label>
+                <input type="password" formControlName="passwordConfirmation">
+            </div>
         </div>
         <div class="button">
-            <button type="sumbit" class="submit" (click)="login()">ログイン</button>
-        </div>
-    </div>
-    <div class="other-links-area">
-        <div class="to-register">
-            <a routerLink="/signup">ユーザー登録</a>
+            <button type="sumbit" class="submit" (click)="signup()">登録</button>
         </div>
     </div>
 </form>
