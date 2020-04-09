@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,20 @@ export class SessionService {
           reject('アカウントの作成に失敗しました。\n' + error);
         });
     });
+  }
+
+  checkLogin(): void {
+    // ログイン状況を確認する
+    this.angularFireAuth.authState.subscribe(auth => {
+      this.sessionSubject.next(!!auth);
+    });
+  }
+
+  checkLoginState(): Observable<boolean> {
+    return this.angularFireAuth.authState
+      .pipe(
+        map(auth => { return !!auth; })
+      );
   }
 
 }

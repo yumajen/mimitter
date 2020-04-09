@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SessionService } from './session.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'mimitter';
+
+  constructor(
+    private sessionService: SessionService,
+  ) {
+    // ルートコンポーネントはどのページを生成する時でも読み込まれるので、ここでログイン状態を確認
+    this.sessionService.checkLogin();
+  }
 }
