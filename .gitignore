@@ -24,7 +24,7 @@ speed-measure-plugin*.json
 *.sublime-workspace
 
 # firebase
-/.firebase
+.firebase/*
 
 # IDE - VSCode
 .vscode/*
