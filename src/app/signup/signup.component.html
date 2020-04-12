@@ -2,6 +2,10 @@
 <form [formGroup]="form">
     <div class="login-area">
         <div class="forms">
+            <div class="name">
+                <label>ユーザー名</label>
+                <input type="text" formControlName="name">
+            </div>
             <div class="email">
                 <label>メールアドレス</label>
                 <input type="text" formControlName="email">

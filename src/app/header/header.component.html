@@ -1,6 +1,9 @@
 <div class="header" fxLayout="row">
-    <div class="title" fxFlex="90%">
+    <div class="title" fxFlex="80%">
         <span>Mimitter</span>
+    </div>
+    <div class="currentUser" fxFlex="10%">
+        <span *ngIf="currentUser">{{currentUser.name}}</span>
     </div>
     <div class="link" fxFlex="10%">
         <span *ngIf="!isLogined">

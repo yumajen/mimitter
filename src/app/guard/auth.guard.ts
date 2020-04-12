@@ -17,12 +17,12 @@ export class AuthGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.sessionService.checkLoginState()
       .pipe(
-        map(auth => {
+        map(session => {
           // ログインしていない場合は強制的にログイン画面へ遷移させる
-          if (!auth) {
+          if (!session.isLogined) {
             this.router.navigate(['/login']);
           }
-          return !!auth;
+          return session.isLogined;
         }));
   }
 

@@ -17,12 +17,12 @@ export class LoginGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.sessionService.checkLoginState()
       .pipe(
-        map(auth => {
+        map(session => {
           // ログインしている場合は、ログイン画面へアクセスさせずにメイン画面へ遷移させる
-          if (auth) {
+          if (session.isLogined) {
             this.router.navigate(['/main']);
           }
-          return !auth;
+          return !session.isLogined;
         }));
   }
 

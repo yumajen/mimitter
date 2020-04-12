@@ -13,7 +13,7 @@
         </div>
     </div>
 </form>
-<div *ngIf="posts" class="time-line">
+<div *ngIf="currentUser && posts" class="time-line">
     <table>
         <tbody>
             <tr *ngFor="let post of posts; index as i">
@@ -33,12 +33,15 @@
                     <div>
                         <p class="sub-info">
                             {{post.createdAt | date: 'yyyy/MM/dd HH:mm:SS'}}
-                            <mat-icon *ngIf="!isEdit(post)" class="edit" (click)="editPost(post)">edit</mat-icon>
-                            <mat-icon *ngIf="isEdit(post)" class="edit" (click)="updatePost(post)">save</mat-icon>
-                            <mat-icon *ngIf="isEdit(post)" class="cancel" (click)="cancelEditing()">cancel
-                            </mat-icon>
-                            <mat-icon class="delete" (click)="deletePost(post.id)" [class.disabled]="isEditing">delete
-                            </mat-icon>
+                            <ng-container *ngIf="isCurrentUserPost(post.userId)">
+                                <mat-icon *ngIf="!isEdit(post)" class="edit" (click)="editPost(post)">edit</mat-icon>
+                                <mat-icon *ngIf="isEdit(post)" class="edit" (click)="updatePost(post)">save</mat-icon>
+                                <mat-icon *ngIf="isEdit(post)" class="cancel" (click)="cancelEditing()">cancel
+                                </mat-icon>
+                                <mat-icon class="delete" (click)="deletePost(post.id)" [class.disabled]="isEditing">
+                                    delete
+                                </mat-icon>
+                            </ng-container>
                         </p>
                     </div>
                 </td>
