@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PostService } from '../post.service';
 import { FormBuilder } from '@angular/forms';
 import { Post } from '../post';
+import { SessionService } from '../session.service';
+import { User } from '../user';
 
 @Component({
   selector: 'app-main',
@@ -15,6 +17,7 @@ export class MainComponent implements OnInit {
   updateParam: any = {}; // 更新用パラメータ
   editingSentence: string; // 編集中の文
   lengthOfEditingSentence: number = null;
+  currentUser: User;
 
   postForm = this.fb.group({
     sentence: [''],
@@ -24,11 +27,20 @@ export class MainComponent implements OnInit {
 
   constructor(
     private postService: PostService,
+    private sessionService: SessionService,
     private fb: FormBuilder,
   ) { }
 
   ngOnInit() {
+    this.getCurrentUser();
     this.getPosts();
+  }
+
+  getCurrentUser(): void {
+    this.sessionService.sessionState
+      .subscribe(session => {
+        this.currentUser = session.user;
+      });
   }
 
   getPosts(): void {
@@ -119,4 +131,9 @@ export class MainComponent implements OnInit {
     this.editingSentence = sentence;
     this.lengthOfEditingSentence = sentence ? sentence.length : 0;
   }
+
+  isCurrentUserPost(userId: string): boolean {
+    return userId === this.currentUser.id;
+  }
+
 }

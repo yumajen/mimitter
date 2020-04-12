@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../session.service';
 import { Router } from '@angular/router';
+import { Session } from '../session';
+import { User } from '../user';
 
 @Component({
   selector: 'app-header',
@@ -9,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   isLogined = false;
+  currentUser: User;
 
   constructor(
     private router: Router,
@@ -20,8 +23,11 @@ export class HeaderComponent implements OnInit {
   }
 
   setSessionState(): void {
-    this.sessionService.sessionState.subscribe(v => {
-      this.isLogined = v;
+    this.sessionService.sessionState.subscribe((session: Session) => {
+      if (session) {
+        this.isLogined = session.isLogined;
+        this.currentUser = session.user;
+      }
     });
   }
 

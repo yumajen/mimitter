@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Post } from './post';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class PostService {
 
   constructor(
     private db: AngularFirestore,
+    private sessionService: SessionService,
   ) {
     this.postsCollection = db.collection<Post>('posts', ref => ref.orderBy('createdAt', 'desc'));
   }
@@ -25,6 +27,7 @@ export class PostService {
       id: createdId,
       sentence: param.sentence,
       createdAt: Date.now(),
+      userId: this.sessionService.currentUser.id,
     };
     return this.postsCollection.doc(createdId).set(item);
   }

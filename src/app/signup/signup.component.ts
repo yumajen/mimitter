@@ -10,6 +10,7 @@ import { FormBuilder } from '@angular/forms';
 })
 export class SignupComponent implements OnInit {
   form = this.fb.group({
+    name: [''],
     email: [''],
     password: [''],
     passwordConfirmation: [''],
@@ -26,6 +27,7 @@ export class SignupComponent implements OnInit {
 
   signup() {
     const account = {
+      name: this.form.get('name').value,
       email: this.form.get('email').value,
       password: this.form.get('password').value,
     };
