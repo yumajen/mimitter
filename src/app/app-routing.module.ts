@@ -5,6 +5,8 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { AuthGuard } from './guard/auth.guard';
 import { LoginGuard } from './guard/login.guard';
+import { ProfileComponent } from './profile/profile.component';
+import { User } from './user';
 
 const routes: Routes = [];
 
@@ -12,9 +14,20 @@ const routes: Routes = [];
   imports: [RouterModule.forRoot(
     [
       { path: '', redirectTo: '/main', pathMatch: 'full' },
-      { path: 'main', component: MainComponent, canActivate: [AuthGuard] },
+      {
+        path: 'main',
+        component: MainComponent,
+        canActivate: [AuthGuard],
+        children: [
+          {
+            path: 'main/:id',
+            component: ProfileComponent,
+          }
+        ],
+      },
       { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
       { path: 'signup', component: SignupComponent },
+      { path: 'main/:id', component: ProfileComponent },
     ]
   )],
   exports: [RouterModule]

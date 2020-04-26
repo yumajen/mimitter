@@ -37,10 +37,13 @@ export class MainComponent implements OnInit {
   }
 
   getCurrentUser(): void {
-    this.sessionService.sessionState
-      .subscribe(session => {
-        this.currentUser = session.user;
-      });
+    this.currentUser = this.sessionService.currentUser;
+    if (!this.currentUser) {
+      this.sessionService.sessionState
+        .subscribe(session => {
+          this.currentUser = session.user;
+        });
+    }
   }
 
   getPosts(): void {

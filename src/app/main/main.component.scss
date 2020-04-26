@@ -1,6 +1,11 @@
 .posting-area {
     margin-left: 20px;
-    width: 30vw;
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 49vw;
+    background-color: #f0f0f0;
+    border: #c0c0c0 1px solid;
+    border-radius: 5px;
 }
 .submit-button {
     text-align: right;
@@ -15,11 +20,14 @@ table {
     padding-left: 0;
 }
 td.post {
-    width: 30vw;
+    width: 50vw;
     list-style: none;
     margin-top: 3px;
     background-color: #e7fadc;
     border-radius: 5px;
+}
+td.current {
+    background-color: #dce3fa;
 }
 p.sentences {
     margin-bottom: 0;
@@ -40,7 +48,7 @@ textarea {
     outline: none;
     &.create {
         height: 35px;
-        width: 30vw;
+        width: 99%;
     }
     &.edit {
         margin-left: 5px;

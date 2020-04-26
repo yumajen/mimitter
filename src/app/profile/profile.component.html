@@ -1,0 +1,53 @@
+<ng-container *ngIf="user">
+    <div class="profile-area" fxLayout="row">
+        <div class="icon-area" fxFlex="20%">
+            <!-- TODO: ユーザーアイコンを表示する -->
+            <!-- <img class="icon" src="#"> -->
+            <div class="icon"></div>
+        </div>
+        <div class="content-area" fxFlex="80%">
+            <div fxLayout="row">
+                <div class="name" fxFlex="50%">
+                    <span>{{user.name}}</span>
+                </div>
+                <div class="edit-button" fxFlex="50%">
+                    <button>プロフィールを編集する</button>
+                </div>
+            </div>
+            <div class="profile-content">
+                <span>プロフィール文プロフィール文プロフィール文プロフィール文プロフィール文プロフィール文プロフィール文プロフィール文</span>
+            </div>
+            <div class="register-date">
+                <span>{{user.createdAt | date: 'yyyy/MM/dd'}}に登録しました。</span>
+            </div>
+            <div class="other-info">
+                <span>ツイート 0</span>
+                <span>フォロー 0</span>
+                <span>フォロワー 0</span>
+            </div>
+            <div class="follow-button">
+                <!-- TODO: 自分以外のユーザーのプロフィールを閲覧している時に表示 -->
+                <button>フォローする</button>
+                <button>フォローを解除</button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="posts" class="time-line">
+        <table>
+            <tbody>
+                <tr *ngFor="let post of posts">
+                    <td class="post" [ngClass]="{ current: isCurrentUserPost }">
+                        <div>
+                            <p class="sentences">{{post.sentence}}</p>
+                        </div>
+                        <div class="post-footer">
+                            <p class="date">
+                                {{post.createdAt | date: 'yyyy/MM/dd HH:mm:SS'}}
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-container>
