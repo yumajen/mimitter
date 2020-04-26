@@ -42,4 +42,8 @@ export class HeaderComponent implements OnInit {
       });
   }
 
+  directToUserProfile() {
+    this.router.navigate([`/main/${this.currentUser.id}`], { queryParams: { id: this.currentUser.id } });
+  }
+
 }

@@ -3,7 +3,7 @@
         <span>Mimitter</span>
     </div>
     <div class="currentUser" fxFlex="10%">
-        <span *ngIf="currentUser">{{currentUser.name}}</span>
+        <a *ngIf="currentUser" (click)="directToUserProfile()">{{currentUser.name}}</a>
     </div>
     <div class="link" fxFlex="10%">
         <span *ngIf="!isLogined">

@@ -113,7 +113,7 @@ export class SessionService {
       .pipe(
         take(1),
         switchMap((user: User) => {
-          return of(new User(id, user.name));
+          return of(user);
         })
       );
   }

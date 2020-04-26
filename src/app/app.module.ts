@@ -16,6 +16,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SignupComponent } from './signup/signup.component';
     HeaderComponent,
     LoginComponent,
     SignupComponent,
+    ProfileComponent,
   ],
   imports: [
     FlexLayoutModule,
