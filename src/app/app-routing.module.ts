@@ -7,6 +7,7 @@ import { AuthGuard } from './guard/auth.guard';
 import { LoginGuard } from './guard/login.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { User } from './user';
+import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 
 const routes: Routes = [];
 
@@ -27,7 +28,8 @@ const routes: Routes = [];
       },
       { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
       { path: 'signup', component: SignupComponent },
-      { path: 'main/:id', component: ProfileComponent },
+      { path: 'user/:id', component: ProfileComponent },
+      { path: 'user/:id/edit', component: ProfileEditComponent },
     ]
   )],
   exports: [RouterModule]

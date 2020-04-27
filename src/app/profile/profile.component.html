@@ -11,11 +11,11 @@
                     <span>{{user.name}}</span>
                 </div>
                 <div class="edit-button" fxFlex="50%">
-                    <button>プロフィールを編集する</button>
+                    <button (click)="directToProfileEdit()">プロフィールを編集する</button>
                 </div>
             </div>
             <div class="profile-content">
-                <span>プロフィール文プロフィール文プロフィール文プロフィール文プロフィール文プロフィール文プロフィール文プロフィール文</span>
+                <span>{{user.introduction}}</span>
             </div>
             <div class="register-date">
                 <span>{{user.createdAt | date: 'yyyy/MM/dd'}}に登録しました。</span>

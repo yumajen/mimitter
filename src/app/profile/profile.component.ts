@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../user';
 import { SessionService } from '../session.service';
 import { PostService } from '../post.service';
 import { Post } from '../post';
+import { UserAccountService } from '../user-account.service';
 
 @Component({
   selector: 'app-profile',
@@ -18,7 +19,9 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private sessionService: SessionService,
+    private userAccountService: UserAccountService,
     private postService: PostService,
   ) { }
 
@@ -26,13 +29,11 @@ export class ProfileComponent implements OnInit {
     this.getUser();
   }
 
-  getUser() {
-    this.route.queryParams.subscribe(params => {
-      const userId = params.id;
-      this.sessionService.getUser(userId).subscribe(user => {
-        this.user = user;
-        this.getPosts();
-      });
+  getUser(): void {
+    const userId = this.route.snapshot.paramMap.get('id')
+    this.userAccountService.getUser(userId).subscribe(user => {
+      this.user = user;
+      this.getPosts();
     });
   }
 
@@ -43,6 +44,10 @@ export class ProfileComponent implements OnInit {
         this.posts = posts.filter(v => v.userId === this.user.id)
           .sort((a, b) => b.createdAt - a.createdAt);
       });
+  }
+
+  directToProfileEdit(): void {
+    this.router.navigate([`/user/${this.user.id}/edit`]);
   }
 
 }
