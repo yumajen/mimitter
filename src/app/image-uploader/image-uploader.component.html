@@ -1,0 +1,30 @@
+<div class="dialog-header">
+    <p>画像アップロード</p>
+</div>
+<div class="dialog-body">
+    <div appFileDrop (onFileDrop)="onFileDrop($event)" class="drop-area">
+        <p>ここにファイルをドラッグ&ドロップ<br>または</p>
+        <div class="select-button">
+            <label>
+                ファイルを選択
+                <input type="file" (change)="selectFile($event)" class="file-form">
+            </label>
+        </div>
+        <p *ngIf="file" class="file-name">{{file.name}}</p>
+        <p *ngIf="isError" class="error-message">
+            ファイルをアップロードできませんでした。<br>ファイル形式またはサイズを確認してください。
+        </p>
+    </div>
+    <div class="discription">
+        <p>
+            アップロード可能なファイルの形式は<span>PNG/JPEG/GIF</span>のみです。<br>
+            ファイルサイズは<span>5MB</span>以内で指定してください。
+        </p>
+    </div>
+</div>
+<div class="dialog-footer">
+    <div class="buttons">
+        <button (click)="closeDialog()">閉じる</button>
+        <button (click)="uploadFile()">アップロード</button>
+    </div>
+</div>

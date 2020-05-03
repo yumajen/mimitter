@@ -15,7 +15,7 @@ export class ProfileComponent implements OnInit {
   user: User;
   posts: Post[] = [];
 
-  get isCurrentUserPost() { return this.user.id === this.sessionService.currentUser.id };
+  get isCurrentUserPost() { return this.user.id === this.sessionService.currentUser.id; }
 
   constructor(
     private route: ActivatedRoute,
@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getUser(): void {
-    const userId = this.route.snapshot.paramMap.get('id')
+    const userId = this.route.snapshot.paramMap.get('id');
     this.userAccountService.getUser(userId).subscribe(user => {
       this.user = user;
       this.getPosts();
