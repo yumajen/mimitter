@@ -5,10 +5,10 @@ import { Directive, Output, EventEmitter, HostBinding, HostListener } from '@ang
 })
 export class FileDropDirective {
 
-  @Output() onFileDrop: EventEmitter<File[]> = new EventEmitter<File[]>();
+  @Output() dropFile = new EventEmitter<File[]>();
 
   @HostBinding('style.background-color') private background = '#ddffc2';
-  @HostBinding('style.opacity') private opacity = '1'
+  @HostBinding('style.opacity') private opacity = '1';
 
   @HostListener('dragover', ['$event']) onDragOver(event: any): void {
     event.preventDefault();
@@ -26,7 +26,7 @@ export class FileDropDirective {
     event.preventDefault();
     event.stopPropagation();
     this.opacity = '1';
-    this.onFileDrop.emit(event.dataTransfer.files);
+    this.dropFile.emit(event.dataTransfer.files);
   }
 
   constructor() { }

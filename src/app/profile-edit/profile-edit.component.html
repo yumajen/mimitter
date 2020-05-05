@@ -1,9 +1,7 @@
 <form [formGroup]="form">
     <div class="profile-area" fxLayout="row">
         <div class="icon-area" fxFlex="20%">
-            <!-- TODO: ユーザーアイコンを表示する -->
-            <!-- <img class="icon" src="#"> -->
-            <div class="icon"></div>
+            <img class="icon" src="{{iconUrl}}" alt="">
             <div class="select-picture">
                 <button (click)="openImageUploaderDialog()">画像を選択</button>
             </div>

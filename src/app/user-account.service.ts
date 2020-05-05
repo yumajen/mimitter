@@ -29,6 +29,8 @@ export class UserAccountService {
 
   createUser(user: User): Promise<void> {
     user.createdAt = Date.now();
+    // 初期のユーザーアイコンはデフォルトの画像を指定する
+    user.iconUrl = 'assets/images/default_user_icon.jpeg';
     return this.usersCollection.doc(user.id).set(user.deserialize());
   }
 

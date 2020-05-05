@@ -9,6 +9,9 @@ div {
     button:last-child {
         margin-left: 5px;
     }
+    button:disabled {
+        cursor: default;
+    }
 }
 button:hover {
     cursor: pointer;

@@ -1,9 +1,7 @@
 <ng-container *ngIf="user">
     <div class="profile-area" fxLayout="row">
         <div class="icon-area" fxFlex="20%">
-            <!-- TODO: ユーザーアイコンを表示する -->
-            <!-- <img class="icon" src="#"> -->
-            <div class="icon"></div>
+            <img class="icon" src="{{user.iconUrl}}" alt="">
         </div>
         <div class="content-area" fxFlex="80%">
             <div fxLayout="row">

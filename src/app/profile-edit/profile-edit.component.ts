@@ -14,6 +14,7 @@ import { ImageUploaderComponent } from '../image-uploader/image-uploader.compone
 })
 export class ProfileEditComponent implements OnInit {
   user: User;
+  iconUrl: string;
 
   form = this.fb.group({
     name: [''],
@@ -36,6 +37,7 @@ export class ProfileEditComponent implements OnInit {
     const userId = this.route.snapshot.paramMap.get('id');
     this.userAccountService.getUser(userId).subscribe(user => {
       this.form.patchValue(user);
+      this.iconUrl = user.iconUrl;
       this.user = user;
     });
   }
@@ -44,6 +46,7 @@ export class ProfileEditComponent implements OnInit {
     const updateParam = Object.assign({}, this.user);
     updateParam.name = this.form.get('name').value;
     updateParam.introduction = this.form.get('introduction').value;
+    updateParam.iconUrl = this.iconUrl;
 
     this.userAccountService.updateUser(updateParam)
       .then(() => {
@@ -59,7 +62,7 @@ export class ProfileEditComponent implements OnInit {
   }
 
   openImageUploaderDialog(): void {
-    let dialogRef = this.matDialog.open(ImageUploaderComponent, {
+    const dialogRef = this.matDialog.open(ImageUploaderComponent, {
       width: '55vw',
       height: '65vh',
       disableClose: true,
@@ -67,7 +70,7 @@ export class ProfileEditComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('result', result)
+      this.iconUrl = result;
     });
   }
 

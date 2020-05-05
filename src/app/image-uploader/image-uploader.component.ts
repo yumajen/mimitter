@@ -30,7 +30,7 @@ export class ImageUploaderComponent implements OnInit {
     this.isError = false;
   }
 
-  onFileDrop(files: File[]): void {
+  dropFile(files: File[]): void {
     this.file = files[0];
     this.isError = false;
   }
@@ -38,14 +38,20 @@ export class ImageUploaderComponent implements OnInit {
   uploadFile(): void {
     const fileName = this.file.name;
     const filePath = `upload_files/${this.data.directoryName}/${fileName}`;
+    // ストレージの参照を作成
+    const storageRef = this.angularFireStrage.ref(filePath);
     this.angularFireStrage.upload(filePath, this.file)
       .then(() => {
-        this.closeDialog();
+        // アップロード完了後、ファイルのURLを取得してダイアログ呼び出し元へ返す
+        storageRef.getDownloadURL()
+          .subscribe(url => {
+            this.dialogRef.close(url);
+          });
       })
       .catch((error: Error) => {
         this.isError = true;
         console.log(error);
-      })
+      });
   }
 
   closeDialog(): void {

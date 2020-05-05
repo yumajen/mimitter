@@ -2,7 +2,7 @@
     <p>画像アップロード</p>
 </div>
 <div class="dialog-body">
-    <div appFileDrop (onFileDrop)="onFileDrop($event)" class="drop-area">
+    <div appFileDrop (dropFile)="dropFile($event)" class="drop-area">
         <p>ここにファイルをドラッグ&ドロップ<br>または</p>
         <div class="select-button">
             <label>
@@ -25,6 +25,6 @@
 <div class="dialog-footer">
     <div class="buttons">
         <button (click)="closeDialog()">閉じる</button>
-        <button (click)="uploadFile()">アップロード</button>
+        <button (click)="uploadFile()" [disabled]="!file">アップロード</button>
     </div>
 </div>
