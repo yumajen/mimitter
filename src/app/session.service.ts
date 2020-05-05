@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable, of } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { User } from './user';
 import { Session } from './session';
+import { UserAccountService } from './user-account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class SessionService {
   constructor(
     private angularFireAuth: AngularFireAuth,
     private db: AngularFirestore,
+    private userAccountService: UserAccountService,
   ) {
     this.usersCollection = db.collection('users');
   }
@@ -66,7 +68,7 @@ export class SessionService {
           return auth.user.sendEmailVerification();
         })
         .then(() => {
-          return this.createUser(new User(auth.user.uid, account.name));
+          return this.userAccountService.createUser(new User(auth.user.uid, account.name));
         })
         .then(() => this.angularFireAuth.auth.signOut())
         .then(() => resolve('入力したメールアドレスに確認用メールを送信しました。\nログイン画面へ移動します。'))
@@ -86,7 +88,7 @@ export class SessionService {
           if (!auth) {
             return of(null);
           } else {
-            return this.getUser(auth.uid);
+            return this.userAccountService.getUser(auth.uid);
           }
         })
       )
@@ -105,22 +107,6 @@ export class SessionService {
           return this.session;
         })
       );
-  }
-
-  getUser(id: string): Observable<User> {
-    return this.usersCollection.doc(id)
-      .valueChanges()
-      .pipe(
-        take(1),
-        switchMap((user: User) => {
-          return of(user);
-        })
-      );
-  }
-
-  createUser(user: User): Promise<void> {
-    user.createdAt = Date.now();
-    return this.usersCollection.doc(user.id).set(user.deserialize());
   }
 
 }
