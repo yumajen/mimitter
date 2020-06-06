@@ -6,6 +6,7 @@ import { UserAccountService } from '../user-account.service';
 import { Location } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageUploaderComponent } from '../image-uploader/image-uploader.component';
+import { SessionService } from '../session.service';
 
 @Component({
   selector: 'app-profile-edit',
@@ -24,6 +25,7 @@ export class ProfileEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private userAccountService: UserAccountService,
+    private sessionService: SessionService,
     private fb: FormBuilder,
     private location: Location,
     private matDialog: MatDialog,
@@ -50,6 +52,8 @@ export class ProfileEditComponent implements OnInit {
 
     this.userAccountService.updateUser(updateParam)
       .then(() => {
+        // ユーザーの更新が成功したら同じパラメータでsessionStateのuserも更新する
+        this.sessionService.updateSessionState(updateParam);
         this.goBack();
       })
       .catch((error: Error) => {
