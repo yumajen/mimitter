@@ -36,7 +36,11 @@ export class SessionService {
           } else {
             this.session.isLogined = true;
             this.sessionSubject.next(this.session);
-            resolve('ログインしました。');
+            this.userAccountService.getUser(auth.user.uid)
+              .subscribe(user => {
+                this.currentUser = user;
+                resolve('ログインしました。');
+              });
           }
         })
         .catch(error => {
@@ -94,7 +98,7 @@ export class SessionService {
       )
       .subscribe(auth => {
         this.session.isLogined = !!auth;
-        this.session.user = this.currentUser = !!auth ? auth : new User();
+        this.session.user = !!auth ? auth : new User();
         this.sessionSubject.next(this.session);
       });
   }
@@ -109,4 +113,8 @@ export class SessionService {
       );
   }
 
+  updateSessionState(param: User): void {
+    this.session.user = param;
+    this.sessionSubject.next(this.session);
+  }
 }

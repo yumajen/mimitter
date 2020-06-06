@@ -5,6 +5,7 @@ import { SessionService } from '../session.service';
 import { PostService } from '../post.service';
 import { Post } from '../post';
 import { UserAccountService } from '../user-account.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -20,6 +21,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private sessionService: SessionService,
     private userAccountService: UserAccountService,
     private postService: PostService,
@@ -48,6 +50,10 @@ export class ProfileComponent implements OnInit {
 
   directToProfileEdit(): void {
     this.router.navigate([`/user/${this.user.id}/edit`]);
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 }

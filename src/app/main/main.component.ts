@@ -4,6 +4,9 @@ import { FormBuilder } from '@angular/forms';
 import { Post } from '../post';
 import { SessionService } from '../session.service';
 import { User } from '../user';
+import { UserAccountService } from '../user-account.service';
+import { Router } from '@angular/router';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-main',
@@ -18,6 +21,8 @@ export class MainComponent implements OnInit {
   editingSentence: string; // 編集中の文
   lengthOfEditingSentence: number = null;
   currentUser: User;
+  userInformations$ = new BehaviorSubject<any[]>([]);
+  userInformations: any[] = []; // 各ポストに紐づくユーザー情報
 
   postForm = this.fb.group({
     sentence: [''],
@@ -28,7 +33,9 @@ export class MainComponent implements OnInit {
   constructor(
     private postService: PostService,
     private sessionService: SessionService,
+    private userAccountService: UserAccountService,
     private fb: FormBuilder,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -49,7 +56,14 @@ export class MainComponent implements OnInit {
   getPosts(): void {
     this.postService.getPosts()
       .subscribe(posts => {
-        this.posts = posts.sort((a, b) => b.createdAt - a.createdAt);
+        this.getUserInformations(posts);
+        this.userInformations$
+          .subscribe(v => {
+            if (v.length !== posts.length) { return; }
+            // ポスト配列とユーザー情報配列の要素数が等しい時のみ表示される
+            this.userInformations = v;
+            this.posts = posts.sort((a, b) => b.createdAt - a.createdAt);
+          });
       });
   }
 
@@ -137,6 +151,29 @@ export class MainComponent implements OnInit {
 
   isCurrentUserPost(userId: string): boolean {
     return userId === this.currentUser.id;
+  }
+
+  getUserInformations(posts: Post[]): void {
+    const userInformations = [];
+    posts.forEach((post, index) => {
+      this.userAccountService.getUser(post.userId)
+        .subscribe(user => {
+          userInformations[index] = {
+            id: user.id,
+            name: user.name,
+            iconUrl: user.iconUrl,
+            isCurrentUser: post.userId === this.currentUser.id,
+          };
+          // userInformationsの一番最後の要素に値を設定したらnextでuserInformationsを流す
+          if (index === posts.length - 1) {
+            this.userInformations$.next(userInformations);
+          }
+        });
+    });
+  }
+
+  directToUserProfile(userId: string): void {
+    this.router.navigate([`/user/${userId}`]);
   }
 
 }

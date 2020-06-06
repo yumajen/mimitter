@@ -16,33 +16,46 @@
 <div *ngIf="currentUser && posts" class="time-line">
     <table>
         <tbody>
-            <tr *ngFor="let post of posts; index as i">
-                <td class="post" [ngClass]="{ current: isCurrentUserPost(post.userId)}">
-                    <div>
-                        <p *ngIf="!isEdit(post)" class="sentences">{{post.sentence}}</p>
+            <tr *ngFor="let post of posts; index as i;">
+                <td class="post" [ngClass]="{ current: userInformations[i]?.isCurrentUser }" fxLayout="row">
+                    <div class="icon-area" fxFlex="15%">
+                        <img class="icon" src="{{userInformations[i]?.iconUrl}}" alt="">
                     </div>
-                    <div *ngIf="isEdit(post)">
-                        <textarea class="edit" value="{{post.sentence}}" (blur)="setUpdateParam(post, sentence.value)"
-                            (input)="getEditingSentence(sentence.value)" #sentence></textarea>
-                        <div class="words-counter">
-                            <span [class.unpostable]="!isPostable(editingSentence || sentence.value)">
-                                {{lengthOfEditingSentence || sentence.value.length}}
-                            </span>/{{maxWords}}
+                    <div class="content-area" fxFlex="85%">
+                        <div>
+                            <a class="user-name" (click)="directToUserProfile(post.userId)">
+                                {{userInformations[i]?.name}}
+                            </a>
                         </div>
-                    </div>
-                    <div>
-                        <p class="sub-info">
-                            {{post.createdAt | date: 'yyyy/MM/dd HH:mm:SS'}}
-                            <ng-container *ngIf="isCurrentUserPost(post.userId)">
-                                <mat-icon *ngIf="!isEdit(post)" class="edit" (click)="editPost(post)">edit</mat-icon>
-                                <mat-icon *ngIf="isEdit(post)" class="edit" (click)="updatePost(post)">save</mat-icon>
-                                <mat-icon *ngIf="isEdit(post)" class="cancel" (click)="cancelEditing()">cancel
-                                </mat-icon>
-                                <mat-icon class="delete" (click)="deletePost(post.id)" [class.disabled]="isEditing">
-                                    delete
-                                </mat-icon>
-                            </ng-container>
-                        </p>
+                        <div>
+                            <p *ngIf="!isEdit(post)" class="sentences">{{post.sentence}}</p>
+                        </div>
+                        <div *ngIf="isEdit(post)">
+                            <textarea class="edit" value="{{post.sentence}}"
+                                (blur)="setUpdateParam(post, sentence.value)"
+                                (input)="getEditingSentence(sentence.value)" #sentence></textarea>
+                            <div class="words-counter">
+                                <span [class.unpostable]="!isPostable(editingSentence || sentence.value)">
+                                    {{lengthOfEditingSentence || sentence.value.length}}
+                                </span>/{{maxWords}}
+                            </div>
+                        </div>
+                        <div>
+                            <p class="sub-info">
+                                {{post.createdAt | date: 'yyyy/MM/dd HH:mm:SS'}}
+                                <ng-container *ngIf="userInformations[i]?.isCurrentUser">
+                                    <mat-icon *ngIf="!isEdit(post)" class="edit" (click)="editPost(post)">edit
+                                    </mat-icon>
+                                    <mat-icon *ngIf="isEdit(post)" class="edit" (click)="updatePost(post)">save
+                                    </mat-icon>
+                                    <mat-icon *ngIf="isEdit(post)" class="cancel" (click)="cancelEditing()">cancel
+                                    </mat-icon>
+                                    <mat-icon class="delete" (click)="deletePost(post.id)" [class.disabled]="isEditing">
+                                        delete
+                                    </mat-icon>
+                                </ng-container>
+                            </p>
+                        </div>
                     </div>
                 </td>
             </tr>

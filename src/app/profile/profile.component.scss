@@ -73,22 +73,48 @@ td.post {
     margin-top: 3px;
     background-color: #e7fadc;
     border-radius: 5px;
-}
-td.current {
-    background-color: #dce3fa;
-}
-p.sentences {
-    margin-bottom: 0;
-    padding-left: 10px;
-    font-size: 15px;
-}
-p.date {
-    margin-top: 10;
-    margin-bottom: 2px;
-    padding-left: 10px;
-    height: 20%;
-    vertical-align: middle;
-    font-size: 13px;
-    color: #858585;
-    text-align: left;
+    &.current {
+        background-color: #dce3fa;
+    }
+    div.icon-area {
+        text-align: center;
+        margin-top: 1%;
+        img {
+            width: 80px;
+            height: 80px;
+            margin: 0;
+            border-radius: 3px;
+        }
+    }
+    div.content-area {
+        padding: 3px;
+        a.user-name {
+            font-size: 17px;
+        }
+        p.sentences {
+            margin: 0;
+            padding-left: 10px;
+            font-size: 15px;
+        }
+        p.post-footer {
+            margin-top: 0;
+            margin-bottom: 2px;
+            padding-left: 10px;
+            height: 20%;
+            vertical-align: middle;
+            font-size: 13px;
+            color: #858585;
+            text-align: right;
+        }
+    }
+    p.date {
+        margin-top: 10;
+        margin-bottom: 2px;
+        padding-left: 10px;
+        height: 20%;
+        vertical-align: middle;
+        font-size: 13px;
+        color: #858585;
+        text-align: left;
+    }
 }
