@@ -97,6 +97,7 @@ export class SessionService {
         })
       )
       .subscribe(auth => {
+        this.currentUser = auth;
         this.session.isLogined = !!auth;
         this.session.user = !!auth ? auth : new User();
         this.sessionSubject.next(this.session);
